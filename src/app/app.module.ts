@@ -23,7 +23,7 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     NavbarComponent,
     ListEgresosComponent,
     AddEditEgresoComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,

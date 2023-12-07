@@ -22,6 +22,7 @@ export class AddEditEgresoComponent implements OnInit {
   categorias: Categoria[] = [];
   tenantIdSave:string = "123456789"
   selectedCategoriaControl = this.fb.control('', Validators.required);
+  private egresoEnEdicion: Egreso | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -56,34 +57,20 @@ export class AddEditEgresoComponent implements OnInit {
     })
     
   }
-  // getCategorias(): void {
-  //   this.categoriaService.getListaCategorias().pipe(
-  //     toArray(), // Convert Observable to array
-  //     map((categoriasData: any[]) => { // Convert each object to Categoria
-  //       return categoriasData.map((categoriaData: any) => {
-  //         return({
-  //           _id: categoriaData._id,
-  //           nombre: categoriaData.nombre,
-  //         });
-  //       });
-  //     })
-  //   ).subscribe((categorias: Categoria[]) => {
-  //     this.categorias = categorias;
-  //   });
-  //   console.log("listado de categorias",this.categorias);
-    
-  // }
 
   getEgreso(id: any) {
     this.loading = true;
     this._egresoService.getEgreso(id,this.tenantIdSave).subscribe((data: Egreso) => {
       this.loading = false;
+      this.egresoEnEdicion = data;
+      console.log("este es el getEgreso",this.egresoEnEdicion);
+      
       this.form.setValue({
-        fecha: data.fecha,
-        categoria: data.categoria, // Asigna el objeto completo de la categoría
-        detalle: data.detalle,
-        valor: data.valor,
-        tercero: data.tercero, // Asigna el objeto completo del tercero
+        fecha: data.fecha ?? '',
+        categoria: data.categoria ?? '',
+        detalle: data.detalle ?? '',
+        valor: data.valor ?? '',
+        tercero: data.tercero ?? '',
       });
 
       // Verifica si data.categoria es un objeto antes de acceder a _id
@@ -93,6 +80,8 @@ export class AddEditEgresoComponent implements OnInit {
         // Si no es un objeto o no tiene _id, puedes manejarlo según tus necesidades
         // Por ejemplo, asignar un valor predeterminado o lanzar un error.
       }
+       // Almacena los valores del egreso en la variable local
+       
     });
   }
 
@@ -106,17 +95,25 @@ export class AddEditEgresoComponent implements OnInit {
       valor: this.form.value.valor,
       tercero: this.form.value.tercero, // Debes asignar el valor correcto según tu lógica de negocio
     };
+    console.log("este es el addEgreso",this.egresoEnEdicion);
+    // if (this.egresoEnEdicion) {
+    //   // Si hay un egreso en edición, establecer sus valores
+    //   egreso._id = this.egresoEnEdicion._id;
+    //   egreso.tenantId = this.egresoEnEdicion.tenantId;
+    // }
+
     this.loading = true;
     if (this.id !== null) {
       egreso._id = this.id;
+      
       this._egresoService.updateEgreso(this.id, egreso, this.tenantIdSave).subscribe(() => {
-        this.toastr.info(`El Egreso ${egreso.categoria} fue actualizado con éxito`, 'Egreso actualizado');
+        this.toastr.info(`El Egreso ${egreso.categoria.nombre} fue actualizado con éxito`, 'Egreso actualizado');
         this.loading = false;
         this.router.navigate(['/']);
       });
     } else {
       this._egresoService.saveEgresos(egreso,this.tenantIdSave).subscribe(() => {
-        this.toastr.success(`El egreso ${egreso.categoria} fue registrado con éxito`, 'Egreso registrado');
+        this.toastr.success(`El egreso ${egreso.categoria.nombre} fue registrado con éxito`, 'Egreso registrado');
         this.loading = false;
         this.router.navigate(['/']);
       });
