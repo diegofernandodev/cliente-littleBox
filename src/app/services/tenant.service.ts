@@ -15,4 +15,9 @@ setTenant(tenantId: string): void {
 getTenant(): Observable<string | null> {
   return this.tenantSubject.asObservable();
 }
+
+ // Método para obtener el valor actual del tenant
+ getTenantValue(): string | null {
+  return this.tenantSubject.value;
+}
 }

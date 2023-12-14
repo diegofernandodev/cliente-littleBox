@@ -1,60 +1,3 @@
-<!-- <app-progress-bar *ngIf="loading"></app-progress-bar>
-<div *ngIf="!loading" class="row mt-1">
-    <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
-            <div class="card-header text-center">{{ operacion }} Egreso</div>
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="addEgreso()">
-                    <div>
-                      <label for="fechaInput">Fecha:</label>
-                      <input formControlName="fecha" type="date" class="form-control" id="fechaInput">
-                      <div *ngIf="form.get('fecha')?.hasError('required') && form.get('fecha')?.touched">
-                        El campo fecha es <strong>requerido</strong>
-                      </div>
-                    </div>
-                  
-                    <div>
-                      <label for="categoriaInput">Categoría:</label>
-                     
-                      <select formControlName="categoria">
-                        <option *ngFor="let categoria of categorias" [value]="categoria._id">{{ categoria.nombre }}</option>
-                      </select>
-                      
-                      <div *ngIf="form.get('categoria')?.hasError('required') && form.get('categoria')?.touched">
-                        El campo categoría es <strong>requerido</strong>
-                      </div>
-                    </div>
-                  
-                    <div>
-                      <label for="detalleInput">Detalle:</label>
-                      <input formControlName="detalle" type="text" class="form-control" id="detalleInput">
-                      <div *ngIf="form.get('detalle')?.hasError('required') && form.get('detalle')?.touched">
-                        El campo detalle es <strong>requerido</strong>
-                      </div>
-                    </div>
-                  
-                    <div>
-                      <label for="valorInput">Valor:</label>
-                      <input formControlName="valor" type="number" class="form-control" id="valorInput">
-                      <div *ngIf="form.get('valor')?.hasError('required') && form.get('valor')?.touched">
-                        El campo valor es <strong>requerido</strong>
-                      </div>
-                    </div>
-                  
-                    <div class="row mt-2 text-center">
-                      <div class="col-lg-6">
-                        <button routerLink="/" type="button" class="btn btn-danger">Volver</button>
-                      </div>
-                      <div class="col-lg-6">
-                        <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
-                      </div>
-                    </div>
-                  </form>
-                  
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!loading" class="row mt-1">
@@ -62,49 +5,43 @@
     <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
       <div class="card-header text-center">{{ operacion }} Egreso</div>
       <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="addEgreso()">
+        <form (ngSubmit)="addEgreso()">
           <div>
             <label for="terceroInput">Tercero:</label>
-            <input formControlName="tercero" type="text" class="form-control" id="terceroInput">
-            <div *ngIf="form.get('tercero')?.hasError('required') && form.get('tercero')?.touched">
-              El campo tercero es <strong>requerido</strong>
-            </div>
+            <select [(ngModel)]="selectedTerceroId" name="tercero" class="form-control" required #terceroInput="ngModel">
+              <option *ngFor="let tercero of terceros" [value]="tercero._id">{{ tercero.nombreTercero }}</option>
+            </select>
+            <div *ngIf="terceroInput.touched && terceroInput.invalid" class="text-danger">El campo tercero es requerido</div>
           </div>
 
           <div>
             <label for="fechaInput">Fecha:</label>
-            <input type="date" formControlName="fecha" class="form-control" id="fechaInput">
-            <div *ngIf="form.get('fecha')?.hasError('required') && form.get('fecha')?.touched">
-              El campo fecha es <strong>requerido</strong>
+            <input [(ngModel)]="formulario.fecha" name="fecha" type="date" class="form-control" id="fechaInput" required #fechaInput="ngModel">
+            <div *ngIf="fechaInput.touched && fechaInput.invalid" class="text-danger">El campo fecha es requerido</div>
+            <div *ngIf="formulario.fecha">
+              <label>Fecha seleccionada:</label>
+              <input [value]="formulario.fecha | date:'dd/MM/yyyy'" class="form-control" readonly>
             </div>
           </div>
-
+          
           <div>
             <label for="categoriaInput">Categoría:</label>
-            <!-- Cambié el input a un select para mostrar las categorías disponibles -->
-            <select formControlName="categoria">
+            <select [(ngModel)]="selectedCategoriaId" name="categoria" class="form-control" required #categoriaInput="ngModel">
               <option *ngFor="let categoria of categorias" [value]="categoria._id">{{ categoria.nombre }}</option>
             </select>
-
-            <div *ngIf="form.get('categoria')?.hasError('required') && form.get('categoria')?.touched">
-              El campo categoría es <strong>requerido</strong>
-            </div>
+            <div *ngIf="categoriaInput.touched && categoriaInput.invalid" class="text-danger">El campo categoría es requerido</div>
           </div>
-
+          
           <div>
             <label for="detalleInput">Detalle:</label>
-            <input formControlName="detalle" type="text" class="form-control" id="detalleInput">
-            <div *ngIf="form.get('detalle')?.hasError('required') && form.get('detalle')?.touched">
-              El campo detalle es <strong>requerido</strong>
-            </div>
+            <input [(ngModel)]="formulario.detalle" name="detalle" type="text" class="form-control" id="detalleInput" required #detalleInput="ngModel">
+            <div *ngIf="detalleInput.touched && detalleInput.invalid" class="text-danger">El campo detalle es requerido</div>
           </div>
-
+          
           <div>
             <label for="valorInput">Valor:</label>
-            <input formControlName="valor" type="number" class="form-control" id="valorInput">
-            <div *ngIf="form.get('valor')?.hasError('required') && form.get('valor')?.touched">
-              El campo valor es <strong>requerido</strong>
-            </div>
+            <input [(ngModel)]="formulario.valor" name="valor" type="number" class="form-control" id="valorInput" required #valorInput="ngModel">
+            <div *ngIf="valorInput.touched && valorInput.invalid" class="text-danger">El campo valor es requerido</div>
           </div>
 
           <div class="row mt-2 text-center">
@@ -112,7 +49,7 @@
               <button routerLink="/" type="button" class="btn btn-danger">Volver</button>
             </div>
             <div class="col-lg-6">
-              <button [disabled]="form.invalid" type="submit" class="btn btn-success">Aceptar</button>
+              <button type="submit" class="btn btn-success">Aceptar</button>
             </div>
           </div>
         </form>

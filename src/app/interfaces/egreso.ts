@@ -1,16 +1,16 @@
 
 import { ObjectId } from 'mongodb';
 import { Categoria } from "../interfaces/categorias";
-import { Tercero } from "../interfaces/terceros";
-// import { Categoria } from "./categorias";
+import { Tercero } from "../interfaces/terceros";;
 
 export interface Egreso {
-  _id?: any;
+  _id?: ObjectId;
   egresoId?: number;
   tenantId?: string;
-  tercero: Tercero       //string | ObjectId; // Puedes mantenerlo como string o ObjectId según prefieras
+  tercero?: Tercero | null;      
   fecha: Date;
   detalle: string;
-  categoria: Categoria   // string | ObjectId; // Puedes mantenerlo como string o ObjectId según prefieras
+  categoria?: Categoria | null; 
   valor: number;
 }
+

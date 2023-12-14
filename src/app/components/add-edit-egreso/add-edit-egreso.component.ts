@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Egreso } from 'src/app/interfaces/egreso';
 import { EgresoService } from 'src/app/services/egreso.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { Categoria } from 'src/app/interfaces/categorias';
-import { toArray, map } from 'rxjs/operators';
 import { TerceroService } from 'src/app/services/tercero.service';
+import { Tercero } from 'src/app/interfaces/terceros';
+import { ObjectId } from 'mongodb';
+import { TenantService } from 'src/app/services/tenant.service';
+import { SweetAlertService } from 'src/app/services/sweet-alert.service';
 
 @Component({
   selector: 'app-add-edit-egreso',
@@ -15,108 +16,141 @@ import { TerceroService } from 'src/app/services/tercero.service';
   styleUrls: ['./add-edit-egreso.component.css']
 })
 export class AddEditEgresoComponent implements OnInit {
-  form: FormGroup;
   loading: boolean = false;
   id: string | null;
   operacion: string = 'Agregar ';
   categorias: Categoria[] = [];
-  tenantIdSave:string = "123456789"
-  selectedCategoriaControl = this.fb.control('', Validators.required);
-  private egresoEnEdicion: Egreso | null = null;
+  terceros: Tercero[] = [];
+  
+  selectedCategoriaId: string | ObjectId = ''; // Agregado para manejar ngModel
+  selectedTerceroId: string | ObjectId = ''; // Agregado para manejar ngModel
+
+  formulario: Egreso = {
+    fecha: new Date(),
+    detalle: "",
+    categoria:null,
+    valor: 0,
+    tercero: null
+  };
 
   constructor(
-    private fb: FormBuilder,
     private _egresoService: EgresoService,
     private router: Router,
-    private toastr: ToastrService,
     private aRouter: ActivatedRoute,
-    private categoriaService: CategoriaService
+    private categoriaService: CategoriaService,
+    private tenantService: TenantService,
+    private terceroService: TerceroService,
+    private sweetAlertService: SweetAlertService
   ) {
-    this.form = this.fb.group({
-      tercero: ["", Validators.required], 
-      fecha: ["", Validators.required],
-      categoria: ["", Validators.required],
-      detalle: ["", Validators.required],
-      valor: ["", Validators.required]
-    });
     this.id = this.aRouter.snapshot.paramMap.get('id');
-    this.getCategorias()
   }
 
   ngOnInit() {
-   this.getCategorias();
+    this.tenantService.setTenant('123456789')
+    this.getCategorias();
+    this.getTerceros();
     if (this.id !== null) {
       this.operacion = 'Editar ';
       this.getEgreso(this.id);
+    } else {
+      // Inicializa los controles ngModel
+      this.selectedCategoriaId = '';
+      this.selectedTerceroId = '';
     }
   }
 
-  getCategorias(): void{
-    this.categoriaService.getListaCategorias().subscribe((Data:any)=>{
+  getCategorias(): void {
+    this.categoriaService.getListaCategorias().subscribe((Data: any) => {
       this.categorias = [...Data.data];
-    })
-    
+    });
+  }
+
+  getTerceros(): void {
+    this.terceroService.getListaTerceros().subscribe((Data: any) => {
+      this.terceros = [...Data.data];
+    });
   }
 
   getEgreso(id: any) {
     this.loading = true;
-    this._egresoService.getEgreso(id,this.tenantIdSave).subscribe((data: Egreso) => {
+    this._egresoService.getEgreso(id).subscribe((response: any) => {
       this.loading = false;
-      this.egresoEnEdicion = data;
-      console.log("este es el getEgreso",this.egresoEnEdicion);
-      
-      this.form.setValue({
-        fecha: data.fecha ?? '',
-        categoria: data.categoria ?? '',
-        detalle: data.detalle ?? '',
-        valor: data.valor ?? '',
-        tercero: data.tercero ?? '',
-      });
+      const data = response.data; // Extraer la propiedad 'data' de la respuesta
+      console.log('Datos obtenidos:', data);
 
-      // Verifica si data.categoria es un objeto antes de acceder a _id
-      if (data.categoria && typeof data.categoria === 'object') {
-        this.selectedCategoriaControl.setValue(data.categoria._id?.toString());
-      } else {
-        // Si no es un objeto o no tiene _id, puedes manejarlo según tus necesidades
-        // Por ejemplo, asignar un valor predeterminado o lanzar un error.
-      }
-       // Almacena los valores del egreso en la variable local
-       
+      // Asignar 'data' al formulario
+      this.formulario = {
+        egresoId: data.egresoId,
+        tenantId: data.tenantId,
+        fecha: new Date(data.fecha),
+        detalle: data.detalle,
+        valor: data.valor,
+        categoria: data.categoria?.nombre,
+        tercero: data.tercero?.nombreTercero
+      };
+      console.log("esta es la categoria", this.formulario.categoria, this.formulario.tercero);
+      
+      // Asignar valores por defecto a los controles ngModel
+      this.selectedCategoriaId = data.categoria?._id || ''; // Asignar el ID de la categoría
+      this.selectedTerceroId = data.tercero?._id || ''; // Asignar el ID del tercero
+      console.log('Formulario después de la asignación:', this.formulario);
+      console.log(this.selectedCategoriaId, this.selectedTerceroId);
+      
     });
   }
 
-  addEgreso() {
-    const egreso: Egreso = {
-      egresoId: 0, // Este valor se asignará en el backend con el método de incremento
-      tenantId: "", // Este valor se obtendrá del servicio de tenants
-      fecha: this.form.value.fecha,
-      detalle: this.form.value.detalle,
-      categoria: this.form.value.categoria,
-      valor: this.form.value.valor,
-      tercero: this.form.value.tercero, // Debes asignar el valor correcto según tu lógica de negocio
-    };
-    console.log("este es el addEgreso",this.egresoEnEdicion);
-    // if (this.egresoEnEdicion) {
-    //   // Si hay un egreso en edición, establecer sus valores
-    //   egreso._id = this.egresoEnEdicion._id;
-    //   egreso.tenantId = this.egresoEnEdicion.tenantId;
-    // }
 
-    this.loading = true;
-    if (this.id !== null) {
-      egreso._id = this.id;
-      
-      this._egresoService.updateEgreso(this.id, egreso, this.tenantIdSave).subscribe(() => {
-        this.toastr.info(`El Egreso ${egreso.categoria.nombre} fue actualizado con éxito`, 'Egreso actualizado');
-        this.loading = false;
-        this.router.navigate(['/']);
-      });
-    } else {
-      this._egresoService.saveEgresos(egreso,this.tenantIdSave).subscribe(() => {
-        this.toastr.success(`El egreso ${egreso.categoria.nombre} fue registrado con éxito`, 'Egreso registrado');
-        this.loading = false;
-        this.router.navigate(['/']);
-      });
+  updateTercero(value: string): void {
+    if (this.formulario.tercero) {
+      this.formulario.tercero.nombreTercero = value;
     }
   }
+
+  updateCategoria(value: string): void {
+    if (this.formulario.categoria) {
+      this.formulario.categoria.nombre = value;
+    }
+  }
+
+  addEgreso() {
+    this.loading = true;
+    this.formulario.categoria = this.categorias.find(c => c._id === this.selectedCategoriaId);
+    this.formulario.tercero = this.terceros.find(t => t._id === this.selectedTerceroId);
+    if (this.id !== null) {
+    this.sweetAlertService.showConfirmationDialog().then((result) => {
+      if (result.isConfirmed) {
+        this.realizarActualizacion();
+      } else if (result.isDenied) {
+        this.sweetAlertService.showErrorAlert('Los cambios no se guardaron');
+        this.loading = false;
+      }else{
+        // Si hace clic en "Cancelar", redirige a la lista de egresos
+        this.router.navigate(['/']);
+      }
+    });
+    } else {
+      this.realizarInsercion();
+    }
+  }
+  realizarActualizacion() {
+    this._egresoService.updateEgreso(this.id, this.formulario).subscribe(() => {
+      const categoriaNombre = this.formulario.categoria?.nombre;
+      this.sweetAlertService.showSuccessAlert(`El Egreso ${categoriaNombre} fue actualizado con éxito`);
+      this.loading = false;
+      this.router.navigate(['/']);
+    });
+  }
+  realizarInsercion() {
+    this._egresoService.saveEgresos(this.formulario).subscribe(() => {
+      // Muestra la alerta de éxito con SweetAlert2
+      this.sweetAlertService.showSuccessToast('Egreso guardado exitosamente');
+
+      // Espera 1500 milisegundos (1.5 segundos) antes de navegar a la lista de egresos
+      setTimeout(() => {
+        this.loading = false;
+        this.router.navigate(['/']);
+      }, 1500);
+    });
+  }
 }
+

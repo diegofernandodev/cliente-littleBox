@@ -23,8 +23,8 @@
             <td>{{ item.fecha }}</td>
             <!-- <td>{{ (item.tercero || {}).nombreTercero || 'Sin proveedor' }}</td>
             <td>{{ (item.categoria || {}).nombre || 'Sin categoría' }}</td> -->
-            <td>{{ item.tercero.nombreTercero }}</td>
-            <td>{{ item.categoria.nombre }}</td>
+            <td>{{ item.tercero?.nombreTercero }}</td>
+            <td>{{ item.categoria?.nombre }}</td>
             <td>{{ item.detalle }}</td>
             <td>{{ item.valor | currency }}</td>
             <td>

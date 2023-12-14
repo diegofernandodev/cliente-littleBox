@@ -1,21 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-// Modulos
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
-
-// Componentes
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {TenantInterceptorService  } from './services/tenant-interceptor.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListEgresosComponent } from './components/list-egresos/list-egresos.component';
 import { AddEditEgresoComponent } from './components/add-edit-egreso/add-edit-egreso.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
-
+import { FormsModule } from '@angular/forms'; // Agrega esta línea
 
 @NgModule({
   declarations: [
@@ -28,15 +22,18 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot({
-      timeOut: 10000,
-      positionClass: 'toast-bottom-right'
-    }), // ToastrModule added
+    BrowserAnimationsModule,
+    FormsModule, // Agrega esta línea
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TenantInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

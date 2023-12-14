@@ -1,9 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Egreso } from 'src/app/interfaces/egreso';
 import { EgresoService } from 'src/app/services/egreso.service';
+import { SweetAlertService } from 'src/app/services/sweet-alert.service';
+import { TenantService } from 'src/app/services/tenant.service';
 
 
 @Component({
@@ -15,20 +16,16 @@ export class ListEgresosComponent implements OnInit {
   listEgresos: Egreso[] = []
   loading: boolean = false;
 
-  constructor(private _egresoService: EgresoService, private toastr: ToastrService, private route: ActivatedRoute) { }
+  constructor(private tenantService: TenantService,private _egresoService: EgresoService, private route: ActivatedRoute,private sweetAlertService: SweetAlertService) { }
 
   ngOnInit(): void {
-    this.getListEgresos('123456789');
+    this.tenantService.setTenant('123456789')
+    this.getListEgresos();
   }
 
-  // setTenantForTesting() {
-  //   const tenantIdForTesting = '123456789'; 
-  //   this._egresoService.setTenantForTesting(tenantIdForTesting);
-  // }
-
-  getListEgresos(tenantId: string): void {
+  getListEgresos(): void {
     this.loading = true;
-    this._egresoService.getListaEgresos(tenantId).subscribe((data: any) => {
+    this._egresoService.getListaEgresos().subscribe((data: any) => {
       console.log(data);
       this.listEgresos = [...data.data];
       this.loading = false;
@@ -40,13 +37,17 @@ export class ListEgresosComponent implements OnInit {
   
   deleteEgreso(id: any, tenantId:string) {
     if (id) {
-      this.loading = true;
-      this._egresoService.deleteEgresos(id,tenantId).subscribe(() => {
-        this.getListEgresos('123456789');
-        this.toastr.warning('El egreso fue eliminado con éxito', 'Egreso eliminado');
+      this.sweetAlertService.showConfirmationDelete().then((result) => {
+        if (result.isConfirmed) {
+          this.loading = true;
+          this._egresoService.deleteEgresos(id).subscribe(() => {
+            this.sweetAlertService.showDeleteAlert('Egreso eliminado con exito.');
+            this.getListEgresos();
+          });
+        }
       });
-
-    } else {
+    }
+    else {
       console.log("no funciona");
 
     }

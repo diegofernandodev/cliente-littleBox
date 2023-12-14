@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Categoria } from '../interfaces/categorias';
@@ -44,4 +44,5 @@ export class CategoriaService {
    updateCategoria(id: any, categoria: Categoria): Observable<void> {
      return this.http.put<void>(`${this.myAppUrl}${this.urlPut}/${id}`, categoria);
    }
+
 }
