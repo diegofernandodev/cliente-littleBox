@@ -1,0 +1,167 @@
+<header class="contenedor-header contenedor">
+    <nav class="contenedor-nav">
+        <div class="contenedor-img">
+            <a href="#"><img src="assets/images/logo_little_box.png" alt=""></a>  
+        </div>
+        <div class="contenedor-sesion">
+            <button [routerLink]="['/register-Login']" type="button" class="btn btn-primary btn-registrarse">Registrarse</button>
+            <hr class="linea-vertical">
+            <a [routerLink]="['/register-Login']" href="#">Iniciar sesion</a>
+        </div>
+        
+    </nav>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <!-- Lámina negra semitransparente -->
+    <div class="overlay"></div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="assets/images/img1.jpg" class="d-block w-100" alt="...">
+            <!-- Contenido de texto para la diapositiva 1 -->
+            <div class="carousel-caption">
+            <h3>Control eficiente de caja menor</h3>
+            <p>Optimiza el manejo de tus finanzas con nuestra aplicación web. <br> Gestiona tus ingresos y egresos de forma ágil y precisa, <br> manteniendo un control completo sobre tu caja menor.</p>
+        </div>
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/img2.jpg" class="d-block w-100" alt="...">
+             <!-- Contenido de texto para la diapositiva 2 -->
+            <div class="carousel-caption">
+            <h3>Programa eventos y nunca olvides un pago</h3>
+            <p>Toma decisiones con nuestros informes <br>detallados y estadísticas en tiempo real, <br>Identifica patrones, tendencias y oportunidades de ahorro.</p>
+        </div>
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/img3.jpg" class="d-block w-100" alt="...">
+            <!-- Contenido de texto para la diapositiva 3 -->
+            <div class="carousel-caption">
+            <h3>Roles de usuario personalizados</h3>
+            <p>Con Little Box, crea perfiles personalizados <br> para controlar el acceso a información y funciones, <br> priorizando la seguridad y privacidad de tus datos.</p>
+        </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+</header>
+<footer class="footer-section">
+    <div class="container">
+        <div class="footer-cta pt-5 pb-5">
+            <div class="row">
+                <div class="col-xl-4 col-md-4 mb-30">
+                    <div class="single-cta">
+                        <i class="fas fa-map-marker-alt">
+                            <img src="assets/images/map.svg" alt="map location">
+                        </i>
+                        <div class="cta-text">
+                            <h4>Encuéntranos</h4>
+                            <span>Carrera 9 4 - 55</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4 mb-30">
+                    <div class="single-cta">
+                        <i class="fas fa-phone">
+                            <img src="assets/images/phone.svg" alt="phone">
+                        </i>
+                        <div class="cta-text">
+                            <h4>llamanos</h4>
+                            <span>(602)-8361098</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4 mb-30">
+                    <div class="single-cta">
+                        <i class="far fa-envelope-open">
+                            <img src="assets/images/mail.svg" alt="mail">
+                        </i>
+                        <div class="cta-text">
+                            <h4>escribenos</h4>
+                            <span>informacion@littlebox.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-content pt-5 pb-5">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 mb-50">
+                    <div class="footer-widget">
+                        <div class="footer-logo">
+                            <a href="index.html"><img src="assets/images/logo_little_box.png" class="img-fluid" alt="logo"></a>
+                        </div>
+                        <div class="footer-text">
+                            <p>Little Box es una innovadora solución digital diseñada específicamente para ayudar a las microempresas a simplificar y optimizar la gestión de su caja menor.</p>
+                        </div>
+                        <div class="footer-social-icon">
+                            <span>Síguenos</span>
+                            <a href="#"><i class="fab fa-facebook-f facebook-bg">
+                                <img src="assets/images/facebook.svg" alt="facebook">
+                            </i></a>
+                            <a href="#"><i class="fab fa-twitter twitter-bg">
+                                <img src="assets/images/twitter.svg" alt="twitter x">
+                            </i></a>
+                            <a href="#"><i class="fab fa-google-plus-g google-bg">
+                                <img src="assets/images/google+.svg" alt="google">
+                            </i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                    <div class="footer-widget">
+                        <div class="footer-widget-heading">
+                            <h3>Menu</h3>
+                        </div>
+                        <ul>
+                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Nuestros servicios</a></li>
+                            <li><a href="#">portfolio</a></li>
+                            <li><a href="#">Contacto</a></li>
+                            <!-- <li><a href="#">About us</a></li> -->
+                            <!-- <li><a href="#">Our Services</a></li> -->
+                            <li><a href="#">Nuestro Equipo</a></li>
+                            <!-- <li><a href="#">Contact us</a></li> -->
+                            <li><a href="#">Actualizaciones</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                    <div class="footer-widget">
+                        <div class="footer-widget-heading">
+                            <h3>Subscribete</h3>
+                        </div>
+                        <div class="footer-text mb-25">
+                            <p>Suscribete y recibe noticias importantes sobre el manejo de tus finanzas</p>
+                        </div>
+                        <div class="subscribe-form">
+                            <form action="#">
+                                <input type="text" placeholder="Correo">
+                                <button class="centrar-img-btn"><i class="fab fa-telegram-plane">
+                                    <img src="assets/images/send.svg" alt="send">
+                                </i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="copyright-text">
+                        <p>Copyright &copy; 2023,<a href="#">Little box</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</footer>

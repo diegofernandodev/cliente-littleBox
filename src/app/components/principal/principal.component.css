@@ -1,0 +1,283 @@
+*{
+    padding: O;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.btn-registrarse{
+    background: var(--azul-principal);
+}
+
+.contenedor-header{
+    width: 100%;
+    max-height: 100hv;
+}
+
+.contenedor-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    position: fixed;
+    z-index: 20;
+    top: 0; /* Puedes ajustar la posición superior según sea necesario */
+    left: 0; /* Puedes ajustar la posición izquierda según sea necesario */
+    width: 100%; /* Ancho completo de la pantalla */
+    /*background-color: #ffffff;  Fondo del menú */
+    /* Otras propiedades de estilo que desees */
+}
+.contenedor-img{
+    width: 180px;
+    height: auto;
+    overflow: hidden;    
+}
+.contenedor-img a img{
+    width: 100%;
+    height: auto;
+}
+.contenedor-sesion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.linea-vertical{
+    border: none;
+    border-left: 1px solid #ccc; /* Establece el estilo de línea vertical */
+    height: 35px; /* Ajusta la altura de la línea según sea necesario */
+    margin: 0 10px; /* Ajusta el margen para separar la línea de los botones */
+}
+/* Aplicar una lámina negra semitransparente encima del carrusel */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro con 50% de opacidad */
+    z-index: 9;
+}
+.carousel-control-prev{
+    z-index: 10;
+}
+.carousel-control-next{
+    z-index: 10;
+}
+/* Estilo para el texto dentro de la lámina negra */
+.carousel-caption {
+    color: #fff; /* Color del texto blanco */
+    text-align: center; /* Centrar el texto horizontalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+.carousel-caption h3{
+    font-size: 3rem;
+    z-index: 10;
+}
+.carousel-caption p{
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+.footer-section {
+    background: #151414;
+    position: relative;
+  }
+  .footer-cta {
+    border-bottom: 1px solid #373636;
+  }
+  .single-cta i {
+    color: var(--azul-principal);
+    font-size: 30px;
+    float: left;
+    margin-top:0;
+  }
+  .cta-text {
+    padding-left: 15px;
+    display: inline-block;
+  }
+  .cta-text h4 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .cta-text span {
+    color: #757575;
+    font-size: 15px;
+  }
+  .footer-content {
+    position: relative;
+    z-index: 2;
+  }
+  .footer-pattern img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 330px;
+    background-size: cover;
+    background-position: 100% 100%;
+  }
+  .footer-logo {
+    margin-bottom: 30px;
+  }
+  .footer-logo img {
+      max-width: 200px;
+  }
+  .footer-text p {
+    margin-bottom: 14px;
+    font-size: 14px;
+        color: #7e7e7e;
+    line-height: 28px;
+  }
+  .footer-social-icon span {
+    color: #fff;
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 20px;
+  }
+  .footer-social-icon a {
+    color: #fff;
+    font-size: 16px;
+    margin-right: 15px;
+  }
+  .footer-social-icon i {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 50%;
+  }
+  .facebook-bg img{
+    /*background: #3B5998;*/
+    background-color: white;
+    border-radius: 50%;
+    border: solid 1px #3B5998;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .twitter-bg img{
+    /* background: #55ACEE; */
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .google-bg img{
+    /* background: #DD4B39; */
+    background-color: white;
+    border-radius: 50%;
+    border: solid 1px #DD4B39;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .footer-widget-heading h3 {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .footer-widget-heading h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    height: 2px;
+    width: 50px;
+    background: var(--azul-principal);
+  }
+  .footer-widget ul{
+     margin: 0px;
+     padding: 0px;
+  }
+  .footer-widget ul li {
+    display: inline-block;
+    float: left;
+    width: 50%;
+    margin-bottom: 12px;
+  }
+  .footer-widget ul li a:hover{
+    color: var(--azul-principal);
+  }
+  .footer-widget ul li a {
+    color: #878787;
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+  .subscribe-form {
+    position: relative;
+    overflow: hidden;
+  }
+  .subscribe-form input {
+    width: 100%;
+    padding: 14px 28px;
+    background: #2E2E2E;
+    border: 1px solid #2E2E2E;
+    color: #fff;
+  }
+  .subscribe-form button {
+      position: absolute;
+      height: 100%;
+      right: 0;
+      background: var(--azul-principal);
+      padding: 13px 20px;
+      border: 1px solid var(--azul-principal);
+      top: 50%; /* Coloca el botón en la mitad vertical del contenedor */
+    transform: translateY(-50%); /* Alinea verticalmente el botón */
+  }
+  .subscribe-form button i {
+    color: #fff;
+    font-size: 22px;
+    transform: rotate(-6deg);
+    bottom: 0;
+  }
+  .subscribe-form button i img{
+   display: block;
+   margin: 0 auto;
+   width: 1.3rem;
+   height: 1.3rem;
+    
+  }
+  .copyright-area{
+    background: #202020;
+    padding: 25px 0;
+  }
+  .copyright-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #878787;
+  }
+  .copyright-text p a{
+    color: var(--azul-principal);
+  }
+  
+  .footer-menu ul{
+    padding: 0;
+    margin: 0;
+  }
+  .footer-menu li {
+    display: inline-block;
+    margin-left: 20px;
+  }
+  .footer-menu li:hover a{
+    color: var(--azul-principal);
+  }
+  .footer-menu li a {
+    font-size: 14px;
+    color: #878787;
+  }
+  
+  .fas img{
+    width: 2rem;
+    height: 2rem;
+  }
+  .far img{
+    width: 2rem;
+    height: 2rem;
+  }
+  .fa-telegram-plane{
+    align-items: center;
+    text-align: center;
+  }

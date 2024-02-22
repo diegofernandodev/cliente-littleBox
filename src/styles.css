@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --azul-principal: #3F85F0;
+    --verde-whatsap: #10E926;
+    --blanco1: #FFFAFA;
+    --blanco2: #FFFBFB;
+    --blanco3: #FFFFFF;
+}

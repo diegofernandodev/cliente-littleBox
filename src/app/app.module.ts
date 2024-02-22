@@ -4,12 +4,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import {TenantInterceptorService  } from './services/tenant-interceptor.service';
+import { AuthInterceptorService } from './services/auth.interceptor.service';
+// import {TenantInterceptorService  } from './services/tenant-interceptor.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListEgresosComponent } from './components/list-egresos/list-egresos.component';
 import { AddEditEgresoComponent } from './components/add-edit-egreso/add-edit-egreso.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
-import { FormsModule } from '@angular/forms'; // Agrega esta línea
+import { FormsModule } from '@angular/forms';
+import { PrincipalComponent } from './components/principal/principal.component';
+import { RegisterLoginComponent } from './components/register-login/register-login.component'; // Agrega esta línea
+import { AuthServiceService } from './services/auth-service.service';
+
 
 @NgModule({
   declarations: [
@@ -18,6 +23,8 @@ import { FormsModule } from '@angular/forms'; // Agrega esta línea
     ListEgresosComponent,
     AddEditEgresoComponent,
     ProgressBarComponent,
+    PrincipalComponent,
+    RegisterLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,9 +34,12 @@ import { FormsModule } from '@angular/forms'; // Agrega esta línea
     FormsModule, // Agrega esta línea
   ],
   providers: [
+    AuthServiceService,
     {
+      // provide: HTTP_INTERCEPTORS,
+      // useClass: TenantInterceptorService,
       provide: HTTP_INTERCEPTORS,
-      useClass: TenantInterceptorService,
+      useClass: AuthInterceptorService,
       multi: true
     }
   ],
